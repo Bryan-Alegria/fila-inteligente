@@ -107,7 +107,7 @@ def predecir(t_input):
 
     return {
         "hora": t_input,
-        "afluencia": round(afluencia, 1),
+        "afluencia": round(afluencia),
         "es_hora_pico": es_hora_pico,
         "tendencia": tendencia,
         "horario_recomendado": horario_recomendado,
