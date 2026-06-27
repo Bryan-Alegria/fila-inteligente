@@ -39,8 +39,8 @@ col4.metric(
 
 st.info(pred["mensaje"])
 
-st.plotly_chart(graficar_afluencia(t_input=hora), use_container_width=True)
-st.plotly_chart(graficar_derivada(t_input=hora), use_container_width=True)
+st.plotly_chart(graficar_afluencia(t_input=hora), width="stretch")
+st.plotly_chart(graficar_derivada(t_input=hora), width="stretch")
 
 with st.expander("Analisis matematico", expanded=True):
     st.markdown("### Puntos criticos")
