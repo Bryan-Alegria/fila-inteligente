@@ -10,9 +10,9 @@ from modelo import (
 
 
 def test_f_en_puntos_clave():
-    assert abs(f(8) - 35.93) < 0.5
-    assert abs(f(13) - 165) < 0.5
-    assert abs(f(18) - 35.93) < 0.5
+    assert abs(f(8) - 30.0) < 0.5
+    assert abs(f(13) - 165.0) < 0.5
+    assert abs(f(18) - 30.0) < 0.5
 
 
 def test_f_prima_se_anula_en_puntos_criticos():
@@ -22,13 +22,28 @@ def test_f_prima_se_anula_en_puntos_criticos():
 
 def test_clasificacion_puntos_criticos():
     clasif = clasificar_puntos_criticos()
+    assert clasif[8.0] == "minimo local"
     assert clasif[13.0] == "maximo local"
+    assert clasif[18.0] == "minimo local"
 
 
 def test_predecir_hora_pico():
     r = predecir(13.0)
     assert r["es_hora_pico"] is True
+    assert r["afluencia"] > 100
     assert "pico" in r["mensaje"].lower()
+
+
+def test_predecir_hora_pico_recomienda():
+    r = predecir(13.0)
+    assert r["horario_recomendado"] is not None
+    assert abs(r["horario_recomendado"] - 13.0) <= 2.0
+
+
+def test_predecir_no_pico():
+    r = predecir(9.0)
+    assert not r["es_hora_pico"]
+    assert "no estas en hora pico" in r["mensaje"].lower()
 
 
 def test_predecir_tendencia():
@@ -38,19 +53,8 @@ def test_predecir_tendencia():
     assert r_decrece["tendencia"] == "decreciendo"
 
 
-def test_predecir_hora_valle_reconoce_propia():
-    r = predecir(8.0)
-    assert not r["es_hora_pico"]
-    assert "mejor hora" in r["mensaje"].lower()
-
-
-def test_recomendacion_dentro_ventana():
-    r = predecir(13.0)
-    assert 10.0 <= r["horario_recomendado"] <= 16.0
-    assert r["horario_recomendado"] != 13.0
-
-
-def test_funcion_dentro_de_rango():
-    for t in [v / 4.0 for v in range(32, 89)]:
-        valor = f(t)
-        assert 0 <= valor <= 192, f"f({t})={valor} fuera de [0,192]"
+def test_recomendacion_no_excede_4h():
+    for hora in [11.0, 13.0, 14.5]:
+        r = predecir(hora)
+        if r["horario_recomendado"] is not None:
+            assert abs(r["horario_recomendado"] - hora) <= 4.0

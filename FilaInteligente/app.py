@@ -20,9 +20,9 @@ with st.sidebar:
 
     st.divider()
     st.markdown("### Sobre el modelo")
-    st.latex(r"f(t) = 30 + 135 \cdot e^{-(t-13)^2/8}")
+    st.latex(r"f(t) = 0.216(t-13)^4 - 10.8(t-13)^2 + 165")
     st.caption(
-        "Función gaussiana que modela la cantidad de personas en la fila "
+        "Función cuártica que modela la cantidad de personas en la fila "
         "del casino en función de la hora del día."
     )
 
@@ -45,19 +45,20 @@ st.plotly_chart(graficar_derivada(t_input=hora), width="stretch")
 with st.expander("Análisis matemático", expanded=True):
     st.markdown("### Puntos críticos")
     st.latex(
-        r"f'(t) = -33.75\,(t-13)\,e^{-(t-13)^2/8} = 0"
+        r"f'(t) = 0.864(t-13)^3 - 21.6(t-13) = (t-13)(0.864(t-13)^2 - 21.6) = 0"
     )
-    st.markdown("Solución: $t = 13$ (único punto crítico)")
+    st.markdown("Soluciones: $t = 8$, $t = 13$, $t = 18$")
 
     st.markdown("### Clasificación con segunda derivada")
-    st.latex(r"f''(t) = -33.75\,e^{-(t-13)^2/8}\left(1 - \frac{(t-13)^2}{4}\right)")
-    st.latex(r"f''(13) = -33.75 < 0 \implies \text{máximo local}")
+    st.latex(r"f''(t) = 2.592(t-13)^2 - 21.6")
+    st.latex(r"f''(8) = 43.2 > 0 \implies \text{mínimo local}")
+    st.latex(r"f''(13) = -21.6 < 0 \implies \text{máximo local}")
+    st.latex(r"f''(18) = 43.2 > 0 \implies \text{mínimo local}")
 
     st.markdown("### Interpretación")
     st.markdown(
-        "- **8:00** y **22:00**: horas de menor afluencia (~36 personas, mínimos en los extremos del dominio)\n"
-        "- **13:00**: hora pico (máxima afluencia, 165 personas, ~85% de capacidad)\n"
+        "- **8:00** y **18:00**: horas valle (mínima afluencia, ~30 personas)\n"
+        "- **13:00**: hora pico (máxima afluencia, 165 personas)\n"
         "- La derivada $f'(t)$ indica si la fila está **creciendo** (positiva) "
-        "o **decreciendo** (negativa)\n"
-        "- La función se mantiene en $[30, 165] \\subset [0, 192]$ en todo el dominio $[8, 22]$"
+        "o **decreciendo** (negativa)"
     )
