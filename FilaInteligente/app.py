@@ -76,7 +76,10 @@ with st.sidebar:
         format="%.2f h",
         label_visibility="collapsed",
     )
-    st.caption("Desliza para explorar la afluencia durante el dia.")
+    st.caption(
+        "Desliza para explorar como cambia la afluencia "
+        "durante el dia."
+    )
 
     st.divider()
     st.markdown(
@@ -98,7 +101,8 @@ col1, col2, col3, col4 = st.columns(4)
 with col1:
     st.metric("Personas estimadas", f"{pred['afluencia']} pers.")
 with col2:
-    st.metric("Estado", "Hora pico" if pred["es_hora_pico"] else "Hora valle")
+    st.metric("Estado",
+              "Hora pico" if pred["es_hora_pico"] else "Hora valle")
 with col3:
     st.metric("Tendencia", pred["tendencia"].capitalize())
 with col4:
