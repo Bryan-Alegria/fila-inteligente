@@ -47,22 +47,23 @@ def predecir(t_input):
     horario_recomendado = None
     mensaje = ""
 
-    if es_hora_pico:
-        ventana_min = max(8.0, t_input - 2.0)
-        ventana_max = min(22.0, t_input + 2.0)
+    ventana_min = max(8.0, t_input + 1.0)
+    ventana_max = min(22.0, t_input + 3.0)
 
+    if ventana_min <= ventana_max:
         mejor_t = ventana_min
-        t = ventana_min
+        mejor_f = f(ventana_min)
+        t = ventana_min + 0.25
         while t <= ventana_max:
-            if f(t) < f(mejor_t):
+            valor = f(t)
+            if valor < mejor_f:
+                mejor_f = valor
                 mejor_t = t
             t += 0.25
 
-        mejor_f = f(mejor_t)
-        if mejor_f <= 0.8 * afluencia:
-            diferencia = abs(mejor_t - t_input)
-            if diferencia <= 4.0:
-                horario_recomendado = mejor_t
+        if mejor_f < afluencia and mejor_f < 80:
+            horario_recomendado = mejor_t
+            if es_hora_pico:
                 mensaje = (
                     f"Hora pico ({afluencia:.0f} pers.). "
                     f"Se recomienda ir a las {mejor_t:.1f}h "
@@ -70,20 +71,21 @@ def predecir(t_input):
                 )
             else:
                 mensaje = (
-                    "No hay una hora cercana mejor, considera ir "
-                    "antes de las 12:00 o despues de las 15:00."
+                    f"Se recomienda ir a las {mejor_t:.1f}h "
+                    f"({mejor_f:.0f} pers. estimadas)."
                 )
+
+    if horario_recomendado is None:
+        if es_hora_pico:
+            mensaje = (
+                f"Hora pico ({afluencia:.0f} pers.). "
+                "No hay una hora cercana mejor disponible hoy."
+            )
         else:
             mensaje = (
-                "No hay una hora cercana mejor, considera ir "
-                "antes de las 12:00 o despues de las 15:00."
+                f"No estas en hora pico ({afluencia:.0f} pers.). "
+                "Buen momento para ir al casino."
             )
-    else:
-        horario_recomendado = t_input
-        mensaje = (
-            f"No estas en hora pico ({afluencia:.0f} pers.). "
-            "Buen momento para ir al casino."
-        )
 
     return {
         "hora": t_input,

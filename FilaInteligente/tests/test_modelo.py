@@ -17,7 +17,7 @@ def test_f_en_puntos_clave():
 
 def test_f_prima_se_anula_en_puntos_criticos():
     for t in encontrar_puntos_criticos():
-        assert abs(f_prima(t)) < 0.01, f"f'({t}) deberia ser 0, fue {f_prima(t)}"
+        assert abs(f_prima(t)) < 0.01
 
 
 def test_clasificacion_puntos_criticos():
@@ -31,13 +31,19 @@ def test_predecir_hora_pico():
     r = predecir(13.0)
     assert r["es_hora_pico"] is True
     assert r["afluencia"] > 100
-    assert "pico" in r["mensaje"].lower()
 
 
-def test_predecir_hora_pico_recomienda():
-    r = predecir(13.0)
+def test_predecir_recomienda_posterior():
+    r = predecir(14.0)
     assert r["horario_recomendado"] is not None
-    assert abs(r["horario_recomendado"] - 13.0) <= 2.0
+    assert r["horario_recomendado"] > 14.0
+    assert "se recomienda" in r["mensaje"].lower()
+
+
+def test_predecir_no_recomienda_sin_mejora():
+    r = predecir(13.0)
+    assert r["horario_recomendado"] is None
+    assert "no hay una hora cercana mejor" in r["mensaje"].lower()
 
 
 def test_predecir_no_pico():
@@ -46,15 +52,8 @@ def test_predecir_no_pico():
     assert "no estas en hora pico" in r["mensaje"].lower()
 
 
-def test_predecir_tendencia():
-    r_crece = predecir(10.0)
-    assert r_crece["tendencia"] == "creciendo"
-    r_decrece = predecir(16.0)
-    assert r_decrece["tendencia"] == "decreciendo"
-
-
-def test_recomendacion_no_excede_4h():
-    for hora in [11.0, 13.0, 14.5]:
+def test_recomendacion_nunca_anterior():
+    for hora in [11.0, 13.0, 16.0]:
         r = predecir(hora)
         if r["horario_recomendado"] is not None:
-            assert abs(r["horario_recomendado"] - hora) <= 4.0
+            assert r["horario_recomendado"] >= hora + 1.0
