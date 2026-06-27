@@ -55,7 +55,7 @@ with col_h2:
     st.markdown(
         '<p style="font-size:13px;color:#888;text-align:right;'
         'margin:8px 0 0 0;">INACAP Puente Alto &middot; '
-        'Calculo Diferencial</p>',
+        'Cálculo Diferencial</p>',
         unsafe_allow_html=True,
     )
 
@@ -78,7 +78,7 @@ with st.sidebar:
     )
     st.caption(
         "Desliza para explorar como cambia la afluencia "
-        "durante el dia."
+        "durante el día."
     )
 
     st.divider()
@@ -91,8 +91,8 @@ with st.sidebar:
         r"f'(t) = k\,(t-8)(t-13)(t-18)\,e^{-(t-13)^2/\sigma^2}"
     )
     st.caption(
-        "Modelo polinomico-exponencial. "
-        "3 puntos criticos: 8h, 13h, 18h."
+        "Modelo polinómico-exponencial. "
+        "3 puntos críticos: 8h, 13h, 18h."
     )
 
 pred = predecir(hora)
@@ -121,20 +121,20 @@ st.markdown(
 
 st.markdown(
     '<h2 style="font-size:18px;font-weight:700;color:#1A1A1A;'
-    'margin:0;">Graficas de Afluencia y Derivada</h2>',
+    'margin:0;">Gráficas de Afluencia y Derivada</h2>',
     unsafe_allow_html=True,
 )
 
 st.plotly_chart(graficar_afluencia(t_input=hora), width="stretch")
 st.plotly_chart(graficar_derivada(t_input=hora), width="stretch")
 
-with st.expander("Analisis matematico", expanded=True):
+with st.expander("Análisis matemático", expanded=True):
     col_izq, col_der = st.columns(2)
 
     with col_izq:
         st.markdown(
             '<h3 style="font-size:15px;font-weight:600;color:#1A1A1A;">'
-            'Puntos criticos</h3>',
+            'Puntos críticos</h3>',
             unsafe_allow_html=True,
         )
         st.latex(
@@ -149,7 +149,7 @@ with st.expander("Analisis matematico", expanded=True):
 
         st.markdown(
             '<h3 style="font-size:15px;font-weight:600;color:#1A1A1A;">'
-            'Clasificacion con segunda derivada</h3>',
+            'Clasificación con segunda derivada</h3>',
             unsafe_allow_html=True,
         )
         st.latex(
@@ -168,17 +168,17 @@ with st.expander("Analisis matematico", expanded=True):
         <tr style="border-bottom:1px solid #E5E5E5;">
         <td style="padding:6px 8px;">8:00</td>
         <td style="padding:6px 8px;color:#2E8B57;">+9.9</td>
-        <td style="padding:6px 8px;color:#2E8B57;">Minimo local</td>
+        <td style="padding:6px 8px;color:#2E8B57;">Mínimo local</td>
         </tr>
         <tr style="border-bottom:1px solid #E5E5E5;">
         <td style="padding:6px 8px;">13:00</td>
         <td style="padding:6px 8px;color:#D01B1B;">-38.4</td>
-        <td style="padding:6px 8px;color:#D01B1B;">Maximo local</td>
+        <td style="padding:6px 8px;color:#D01B1B;">Máximo local</td>
         </tr>
         <tr>
         <td style="padding:6px 8px;">18:00</td>
         <td style="padding:6px 8px;color:#2E8B57;">+9.9</td>
-        <td style="padding:6px 8px;color:#2E8B57;">Minimo local</td>
+        <td style="padding:6px 8px;color:#2E8B57;">Mínimo local</td>
         </tr>
         </table>
         """, unsafe_allow_html=True)
@@ -186,7 +186,7 @@ with st.expander("Analisis matematico", expanded=True):
     with col_der:
         st.markdown(
             '<h3 style="font-size:15px;font-weight:600;color:#1A1A1A;">'
-            'Interpretacion</h3>',
+            'Interpretación</h3>',
             unsafe_allow_html=True,
         )
         st.markdown(

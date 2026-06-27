@@ -31,8 +31,8 @@ def graficar_afluencia(t_input=None):
     for t_p, tipo in clasif.items():
         color = COLOR_RED if "maximo" in tipo else COLOR_GREEN
         simbolo = "triangle-down" if "maximo" in tipo else "triangle-up"
-        etiqueta = tipo.replace("maximo local", "maximo local")
-        etiqueta = etiqueta.replace("minimo local", "minimo local")
+        etiqueta = tipo.replace("máximo local", "máximo local")
+        etiqueta = etiqueta.replace("mínimo local", "mínimo local")
         fig.add_trace(go.Scatter(
             x=[t_p], y=[f(t_p)],
             mode="markers+text",
@@ -56,28 +56,28 @@ def graficar_afluencia(t_input=None):
 
     fig.update_layout(
         title=dict(
-            text="Funcion de Afluencia f(t)",
+            text="Función de Afluencia f(t)",
             font=dict(size=20, color=COLOR_DARK,
                       family="Inter, sans-serif"),
             x=0.01,
         ),
         xaxis=dict(
-            title=dict(text="Hora del dia",
-                       font=dict(size=15, color=COLOR_GRAY,
-                                 family="Inter, sans-serif")),
+            title=dict(text="Hora del día",
+                       font=dict(size=15, color="#1A1A1A",
+                                 family="Arial Black")),
             tickmode="linear", tick0=8, dtick=2,
             tickformat=".0f:00",
             gridcolor="rgba(0,0,0,0.06)",
             zeroline=False,
-            tickfont=dict(size=13, color=COLOR_GRAY),
+            tickfont=dict(size=13, color="#1A1A1A"),
         ),
         yaxis=dict(
             title=dict(text="Personas",
-                       font=dict(size=15, color=COLOR_GRAY,
-                                 family="Inter, sans-serif")),
+                       font=dict(size=15, color="#1A1A1A",
+                                 family="Arial Black")),
             gridcolor="rgba(0,0,0,0.06)",
             zeroline=False,
-            tickfont=dict(size=13, color=COLOR_GRAY),
+            tickfont=dict(size=13, color="#1A1A1A"),
         ),
         paper_bgcolor=BG_TRANSPARENT,
         plot_bgcolor=BG_TRANSPARENT,
@@ -86,7 +86,7 @@ def graficar_afluencia(t_input=None):
             orientation="v",
             yanchor="top", y=0.98,
             xanchor="right", x=0.98,
-            font=dict(size=13, color=COLOR_GRAY),
+            font=dict(size=13, color="#1A1A1A"),
             bgcolor="rgba(255,255,255,0.9)",
         ),
         margin=dict(l=40, r=20, t=50, b=40),
@@ -139,22 +139,22 @@ def graficar_derivada(t_input=None):
             x=0.01,
         ),
         xaxis=dict(
-            title=dict(text="Hora del dia",
-                       font=dict(size=15, color=COLOR_GRAY,
-                                 family="Inter, sans-serif")),
+            title=dict(text="Hora del día",
+                       font=dict(size=15, color="#1A1A1A",
+                                 family="Arial Black")),
             tickmode="linear", tick0=8, dtick=2,
             tickformat=".0f:00",
             gridcolor="rgba(0,0,0,0.06)",
             zeroline=False,
-            tickfont=dict(size=13, color=COLOR_GRAY),
+            tickfont=dict(size=13, color="#1A1A1A"),
         ),
         yaxis=dict(
             title=dict(text="Tasa de cambio (pers/h)",
-                       font=dict(size=15, color=COLOR_GRAY,
-                                 family="Inter, sans-serif")),
+                       font=dict(size=15, color="#1A1A1A",
+                                 family="Arial Black")),
             gridcolor="rgba(0,0,0,0.06)",
             zeroline=False,
-            tickfont=dict(size=13, color=COLOR_GRAY),
+            tickfont=dict(size=13, color="#1A1A1A"),
         ),
         paper_bgcolor=BG_TRANSPARENT,
         plot_bgcolor=BG_TRANSPARENT,
@@ -163,7 +163,7 @@ def graficar_derivada(t_input=None):
             orientation="v",
             yanchor="top", y=0.98,
             xanchor="right", x=0.98,
-            font=dict(size=13, color=COLOR_GRAY),
+            font=dict(size=13, color="#1A1A1A"),
             bgcolor="rgba(255,255,255,0.9)",
         ),
         margin=dict(l=40, r=20, t=50, b=40),
