@@ -34,7 +34,9 @@ col2.metric("Estado", "Hora pico" if pred["es_hora_pico"] else "Hora valle")
 col3.metric("Tendencia", pred["tendencia"])
 col4.metric(
     "Hora recomendada",
-    f"{pred['horario_recomendado']:.0f}:00",
+    f"{pred['horario_recomendado']:.0f}:00"
+    if pred["horario_recomendado"] is not None
+    else "N/A",
 )
 
 st.info(pred["mensaje"])
