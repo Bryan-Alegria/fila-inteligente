@@ -32,6 +32,12 @@ def f(t):
     return 165.0 + integral
 
 
+def hora_a_string(h):
+    horas = int(h)
+    minutos = int(round((h - horas) * 60))
+    return f"{horas:02d}:{minutos:02d}"
+
+
 def encontrar_puntos_criticos():
     return [8.0, 13.0, 18.0]
 
@@ -84,12 +90,12 @@ def predecir(t_input):
             if es_hora_pico:
                 mensaje = (
                     f"Hora pico ({afluencia:.0f} pers.). "
-                    f"Se recomienda ir a las {mejor_t:.1f}h "
+                    f"Se recomienda ir a las {hora_a_string(mejor_t)} "
                     f"({mejor_f:.0f} pers.)."
                 )
             else:
                 mensaje = (
-                    f"Se recomienda ir a las {mejor_t:.1f}h "
+                    f"Se recomienda ir a las {hora_a_string(mejor_t)} "
                     f"({mejor_f:.0f} pers. estimadas)."
                 )
 
