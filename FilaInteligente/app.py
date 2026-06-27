@@ -7,134 +7,67 @@ st.set_page_config(page_title="Fila Inteligente", layout="wide")
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
 * { font-family: 'Inter', sans-serif; }
 
-[data-testid="stAppViewContainer"] {
-    background: #0D0D0D;
-}
-
-[data-testid="stSidebar"] {
-    background: #161616;
-    min-width: 220px;
-    max-width: 220px;
-}
-
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h1,
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h2,
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h3,
-[data-testid="stSidebar"] label, [data-testid="stSidebar"] .stCaption {
-    color: #FFFFFF !important;
-}
-
-[data-testid="stSidebar"] hr {
-    border-color: #2A2A2A;
-}
-
 div[data-testid="stMetric"] {
-    background: #1E1E1E;
-    border: 1px solid #2A2A2A;
-    padding: 10px 14px;
+    background: #F8F8F8;
+    border: 1px solid #E5E5E5;
+    padding: 10px 12px;
     border-radius: 0;
 }
 
 div[data-testid="stMetric"] label {
-    color: #A0A0A0 !important;
-    font-size: 12px !important;
+    font-size: 11px !important;
+    white-space: nowrap;
+    overflow: visible;
 }
 
 div[data-testid="stMetric"] [data-testid="stMetricValue"] {
-    color: #FFFFFF !important;
-    font-size: 28px !important;
+    font-size: 22px !important;
 }
 
-.metric-peak div[data-testid="stMetric"] {
-    border-left: 3px solid #D01B1B !important;
+.reco-banner {
+    background: #FFF3F3;
+    border: 1px solid #FFD4D4;
+    border-left: 3px solid #D01B1B;
+    padding: 12px 16px;
+    margin: 8px 0 16px 0;
+    font-size: 14px;
+    color: #1A1A1A;
 }
 
-.metric-valley div[data-testid="stMetric"] {
-    border-left: 3px solid #00C48C !important;
+.reco-banner.ok {
+    background: #F0FFF4;
+    border-color: #C6F6D5;
+    border-left-color: #2E8B57;
 }
-
-.header-title {
-    font-size: 22px;
-    font-weight: 700;
-    color: #FFFFFF;
-}
-
-.header-subtitle {
-    font-size: 13px;
-    color: #A0A0A0;
-}
-
-.section-title {
-    font-size: 18px;
-    font-weight: 700;
-    color: #FFFFFF;
-    margin-top: 8px;
-}
-
-.stAlert {
-    background: #1E1E1E !important;
-    border: 1px solid #D01B1B !important;
-    color: #FFFFFF !important;
-    border-radius: 0;
-}
-
-.stAlert p { font-size: 14px !important; }
-
-[data-testid="stExpander"] {
-    background: #1E1E1E;
-    border: 1px solid #2A2A2A;
-}
-
-[data-testid="stExpander"] details summary p {
-    color: #FFFFFF !important;
-    font-size: 16px !important;
-    font-weight: 600;
-}
-
-[data-testid="stExpander"] [data-testid="stMarkdownContainer"] {
-    color: #A0A0A0;
-}
-
-div.stSlider > div[data-baseweb="slider"] > div {
-    background: #D01B1B;
-}
-
-div.stSlider [data-testid="stThumbValue"] {
-    background: #D01B1B;
-    color: #FFFFFF;
-}
-
-.stDivider {
-    border-color: #2A2A2A;
-}
-
-a, .stMarkdown a { color: #D01B1B; }
 </style>
 """, unsafe_allow_html=True)
 
 col_h1, col_h2 = st.columns([3, 2])
 with col_h1:
     st.markdown(
-        '<div class="header-title">Fila Inteligente</div>',
+        '<h1 style="font-size:24px;font-weight:700;color:#1A1A1A;'
+        'margin:0;">Fila Inteligente</h1>',
         unsafe_allow_html=True,
     )
 with col_h2:
     st.markdown(
-        '<div class="header-subtitle" style="text-align:right;">'
-        'INACAP Puente Alto &middot; Calculo Diferencial'
-        '</div>',
+        '<p style="font-size:13px;color:#888;text-align:right;'
+        'margin:8px 0 0 0;">INACAP Puente Alto &middot; '
+        'Calculo Diferencial</p>',
         unsafe_allow_html=True,
     )
 
-st.markdown('<hr style="border-color:#2A2A2A;margin:6px 0 16px 0;">',
-            unsafe_allow_html=True)
+st.markdown(
+    '<hr style="border-color:#E5E5E5;margin:4px 0 12px 0;">',
+    unsafe_allow_html=True,
+)
 
 with st.sidebar:
     st.markdown(
-        '<div class="section-title">Selecciona una hora</div>',
+        '<p style="font-size:16px;font-weight:600;color:#1A1A1A;'
+        'margin-bottom:4px;">Selecciona una hora</p>',
         unsafe_allow_html=True,
     )
     hora = st.slider(
@@ -146,47 +79,9 @@ with st.sidebar:
     st.caption("Desliza para explorar la afluencia durante el dia.")
 
     st.divider()
-
-    pred = predecir(hora)
-
-    col_a, col_b = st.columns(2)
-    with col_a:
-        st.metric("Personas", f"{pred['afluencia']}")
-    with col_b:
-        st.metric("Estado",
-                  "Pico" if pred["es_hora_pico"] else "Valle")
-
-    col_c, col_d = st.columns(2)
-    with col_c:
-        st.metric("Tendencia", pred["tendencia"])
-    with col_d:
-        st.metric(
-            "Recomendada",
-            f"{pred['horario_recomendado']:.0f}h"
-            if pred["horario_recomendado"] is not None
-            else "N/A",
-        )
-
-    if pred["es_hora_pico"]:
-        clase_alerta = "metric-peak"
-    else:
-        clase_alerta = "metric-valley"
-
-    alerta_html = (
-        f'<div class="{clase_alerta}" style="margin-top:12px;'
-        f'padding:12px 14px;background:#1E1E1E;'
-        f'border:1px solid #2A2A2A;'
-        f'border-left:3px solid '
-        f'{"#D01B1B" if pred["es_hora_pico"] else "#00C48C"};'
-        f'font-size:13px;color:#E0E0E0;line-height:1.5;">'
-        f'{pred["mensaje"]}</div>'
-    )
-    st.markdown(alerta_html, unsafe_allow_html=True)
-
-    st.divider()
     st.markdown(
-        '<div class="section-title" style="font-size:14px;">'
-        'Sobre el modelo</div>',
+        '<p style="font-size:14px;font-weight:600;color:#1A1A1A;">'
+        'Sobre el modelo</p>',
         unsafe_allow_html=True,
     )
     st.latex(
@@ -197,9 +92,32 @@ with st.sidebar:
         "3 puntos criticos: 8h, 13h, 18h."
     )
 
+pred = predecir(hora)
+
+col1, col2, col3, col4 = st.columns(4)
+with col1:
+    st.metric("Personas estimadas", f"{pred['afluencia']} pers.")
+with col2:
+    st.metric("Estado", "Hora pico" if pred["es_hora_pico"] else "Hora valle")
+with col3:
+    st.metric("Tendencia", pred["tendencia"].capitalize())
+with col4:
+    st.metric(
+        "Hora recomendada",
+        f"{pred['horario_recomendado']:.0f}:00"
+        if pred["horario_recomendado"] is not None
+        else "N/A",
+    )
+
+banner_clase = "" if pred["es_hora_pico"] else "ok"
 st.markdown(
-    '<div class="section-title">'
-    'Graficas de Afluencia y Derivada</div>',
+    f'<div class="reco-banner {banner_clase}">{pred["mensaje"]}</div>',
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    '<h2 style="font-size:18px;font-weight:700;color:#1A1A1A;'
+    'margin:0;">Graficas de Afluencia y Derivada</h2>',
     unsafe_allow_html=True,
 )
 
@@ -211,8 +129,8 @@ with st.expander("Analisis matematico", expanded=True):
 
     with col_izq:
         st.markdown(
-            '<div class="section-title" style="font-size:15px;">'
-            'Puntos criticos</div>',
+            '<h3 style="font-size:15px;font-weight:600;color:#1A1A1A;">'
+            'Puntos criticos</h3>',
             unsafe_allow_html=True,
         )
         st.latex(
@@ -220,14 +138,14 @@ with st.expander("Analisis matematico", expanded=True):
             r"e^{-(t-13)^2/\sigma^2} = 0"
         )
         st.markdown(
-            "<p style='color:#A0A0A0;'>Soluciones: "
-            "$t = 8$, $t = 13$, $t = 18$</p>",
+            "<p style='color:#555;'>Soluciones: "
+            "<b>t = 8</b>, <b>t = 13</b>, <b>t = 18</b></p>",
             unsafe_allow_html=True,
         )
 
         st.markdown(
-            '<div class="section-title" style="font-size:15px;">'
-            'Clasificacion</div>',
+            '<h3 style="font-size:15px;font-weight:600;color:#1A1A1A;">'
+            'Clasificacion con segunda derivada</h3>',
             unsafe_allow_html=True,
         )
         st.latex(
@@ -236,43 +154,42 @@ with st.expander("Analisis matematico", expanded=True):
             r"\frac{2(t-13)}{\sigma^2}g(t)\right]"
         )
 
-        tabla_html = """
+        st.markdown("""
         <table style="width:100%;border-collapse:collapse;
-        font-size:13px;color:#E0E0E0;">
-        <tr style="border-bottom:1px solid #2A2A2A;">
-        <td style="padding:6px 8px;color:#A0A0A0;">t</td>
-        <td style="padding:6px 8px;color:#A0A0A0;">f''(t)</td>
-        <td style="padding:6px 8px;color:#A0A0A0;">Tipo</td></tr>
-        <tr style="border-bottom:1px solid #2A2A2A;">
+        font-size:13px;color:#1A1A1A;">
+        <tr style="border-bottom:1px solid #E5E5E5;">
+        <td style="padding:6px 8px;color:#888;">t</td>
+        <td style="padding:6px 8px;color:#888;">f''(t)</td>
+        <td style="padding:6px 8px;color:#888;">Tipo</td></tr>
+        <tr style="border-bottom:1px solid #E5E5E5;">
         <td style="padding:6px 8px;">8:00</td>
-        <td style="padding:6px 8px;color:#00C48C;">+9.9</td>
-        <td style="padding:6px 8px;color:#00C48C;">Minimo local</td>
+        <td style="padding:6px 8px;color:#2E8B57;">+9.9</td>
+        <td style="padding:6px 8px;color:#2E8B57;">Minimo local</td>
         </tr>
-        <tr style="border-bottom:1px solid #2A2A2A;">
+        <tr style="border-bottom:1px solid #E5E5E5;">
         <td style="padding:6px 8px;">13:00</td>
         <td style="padding:6px 8px;color:#D01B1B;">-38.4</td>
         <td style="padding:6px 8px;color:#D01B1B;">Maximo local</td>
         </tr>
         <tr>
         <td style="padding:6px 8px;">18:00</td>
-        <td style="padding:6px 8px;color:#00C48C;">+9.9</td>
-        <td style="padding:6px 8px;color:#00C48C;">Minimo local</td>
+        <td style="padding:6px 8px;color:#2E8B57;">+9.9</td>
+        <td style="padding:6px 8px;color:#2E8B57;">Minimo local</td>
         </tr>
         </table>
-        """
-        st.markdown(tabla_html, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
 
     with col_der:
         st.markdown(
-            '<div class="section-title" style="font-size:15px;">'
-            'Interpretacion</div>',
+            '<h3 style="font-size:15px;font-weight:600;color:#1A1A1A;">'
+            'Interpretacion</h3>',
             unsafe_allow_html=True,
         )
         st.markdown(
-            "<p style='color:#A0A0A0;font-size:14px;line-height:1.8;'>"
-            "<span style='color:#00C48C;font-weight:600;'>8:00</span> "
+            "<p style='color:#555;font-size:14px;line-height:1.9;'>"
+            "<span style='color:#2E8B57;font-weight:600;'>8:00</span> "
             "y "
-            "<span style='color:#00C48C;font-weight:600;'>18:00</span> "
+            "<span style='color:#2E8B57;font-weight:600;'>18:00</span> "
             "son horas valle con minima afluencia "
             "(~30 personas).<br><br>"
             "<span style='color:#D01B1B;font-weight:600;'>13:00</span> "
@@ -281,7 +198,7 @@ with st.expander("Analisis matematico", expanded=True):
             "La derivada "
             "<span style='color:#D01B1B;'>f'(t)</span> "
             "indica si la fila esta "
-            "<span style='color:#00C48C;'>creciendo</span> "
+            "<span style='color:#2E8B57;'>creciendo</span> "
             "(f' &gt; 0) o "
             "<span style='color:#D01B1B;'>decreciendo</span> "
             "(f' &lt; 0).<br><br>"
