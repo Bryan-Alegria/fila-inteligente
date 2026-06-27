@@ -20,10 +20,12 @@ with st.sidebar:
 
     st.divider()
     st.markdown("### Sobre el modelo")
-    st.latex(r"f(t) = 0.216(t-13)^4 - 10.8(t-13)^2 + 165")
+    st.latex(
+        r"f'(t) = k\,(t-8)(t-13)(t-18)\,e^{-(t-13)^2/\sigma^2}"
+    )
     st.caption(
-        "Función cuártica que modela la cantidad de personas en la fila "
-        "del casino en función de la hora del día."
+        "Modelo polinomico-exponencial que representa la afluencia "
+        "al casino en funcion de la hora del dia."
     )
 
 pred = predecir(hora)
@@ -47,20 +49,27 @@ st.plotly_chart(graficar_derivada(t_input=hora), width="stretch")
 with st.expander("Análisis matemático", expanded=True):
     st.markdown("### Puntos críticos")
     st.latex(
-        r"f'(t) = 0.864(t-13)^3 - 21.6(t-13) = (t-13)(0.864(t-13)^2 - 21.6) = 0"
+        r"f'(t) = k\,(t-8)(t-13)(t-18)\,e^{-(t-13)^2/\sigma^2} = 0"
     )
-    st.markdown("Soluciones: $t = 8$, $t = 13$, $t = 18$")
+    st.markdown(
+        "Soluciones: $t = 8$, $t = 13$, $t = 18$ "
+        "(la exponencial nunca se anula)"
+    )
 
     st.markdown("### Clasificación con segunda derivada")
-    st.latex(r"f''(t) = 2.592(t-13)^2 - 21.6")
-    st.latex(r"f''(8) = 43.2 > 0 \implies \text{mínimo local}")
-    st.latex(r"f''(13) = -21.6 < 0 \implies \text{máximo local}")
-    st.latex(r"f''(18) = 43.2 > 0 \implies \text{mínimo local}")
+    st.latex(
+        r"f''(t) = k\,e^{-(t-13)^2/\sigma^2}\left[g'(t) - "
+        r"\frac{2(t-13)}{\sigma^2}g(t)\right]"
+    )
+    st.latex(r"f''(8) = k \cdot 50 \cdot e^{-25/\sigma^2} > 0 \implies \text{mínimo local}")
+    st.latex(r"f''(13) = -25k < 0 \implies \text{máximo local}")
+    st.latex(r"f''(18) = k \cdot 50 \cdot e^{-25/\sigma^2} > 0 \implies \text{mínimo local}")
 
     st.markdown("### Interpretación")
     st.markdown(
-        "- **8:00** y **18:00**: horas valle (mínima afluencia, ~30 personas)\n"
-        "- **13:00**: hora pico (máxima afluencia, 165 personas)\n"
-        "- La derivada $f'(t)$ indica si la fila está **creciendo** (positiva) "
-        "o **decreciendo** (negativa)"
+        "- **8:00** y **18:00**: horas valle (~30 personas, mínimos locales)\n"
+        "- **13:00**: hora pico (165 personas, máximo local)\n"
+        "- **22:00**: afluencia baja (~44 personas, dentro del rango permitido)\n"
+        "- La función se mantiene en $[30, 165] \\subset [0, 192]$ en todo el dominio\n"
+        "- El factor exponencial amortigua el crecimiento en los extremos"
     )
