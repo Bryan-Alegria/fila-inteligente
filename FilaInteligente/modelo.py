@@ -1,21 +1,21 @@
 def f(t):
-    a = 0.05
-    b = 2.5
-    c = 60
-    p = 13
+    a = 1 / 49
+    b = 2
+    c = 75
+    p = 15
     return a * (t - p)**4 - b * (t - p)**2 + c
 
 
 def f_prima(t):
-    return 0.20 * (t - 13)**3 - 5 * (t - 13)
+    return (4 / 49) * (t - 15)**3 - 4 * (t - 15)
 
 
 def f_doble_prima(t):
-    return 0.60 * (t - 13)**2 - 5
+    return (12 / 49) * (t - 15)**2 - 4
 
 
 def encontrar_puntos_criticos():
-    return [8.0, 13.0, 18.0]
+    return [8.0, 15.0, 22.0]
 
 
 def clasificar_puntos_criticos():
@@ -34,7 +34,7 @@ def clasificar_puntos_criticos():
 
 def predecir(t_input):
     afluencia = f(t_input)
-    valor_maximo = f(13)
+    valor_maximo = f(15)
     umbral_pico = 0.90 * valor_maximo
     es_hora_pico = afluencia >= umbral_pico
     derivada = f_prima(t_input)
@@ -75,10 +75,10 @@ def predecir(t_input):
 
 
 def demo():
-    assert abs(f(8) - 28.75) < 0.01
-    assert abs(f(13) - 60) < 0.01
-    assert abs(f(18) - 28.75) < 0.01
-    for t in [8, 13, 18]:
+    assert abs(f(8) - 26.0) < 0.01
+    assert abs(f(15) - 75.0) < 0.01
+    assert abs(f(22) - 26.0) < 0.01
+    for t in [8, 15, 22]:
         assert abs(f_prima(t)) < 0.001
     print("demo(): todas las verificaciones pasaron.")
 

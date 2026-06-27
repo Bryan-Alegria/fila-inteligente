@@ -4,7 +4,7 @@ from modelo import f, f_prima, encontrar_puntos_criticos, clasificar_puntos_crit
 
 
 def _rango_t(paso=0.05):
-    return np.arange(6, 20 + paso, paso)
+    return np.arange(8, 22 + paso, paso)
 
 
 def graficar_afluencia(t_input=None):
