@@ -1,21 +1,22 @@
+import math
+
+
 def f(t):
-    a = 1 / 49
-    b = 2
-    c = 75
-    p = 15
-    return a * (t - p)**4 - b * (t - p)**2 + c
+    return 30 + 135 * math.exp(-((t - 13) ** 2) / 8)
 
 
 def f_prima(t):
-    return (4 / 49) * (t - 15)**3 - 4 * (t - 15)
+    return -33.75 * (t - 13) * math.exp(-((t - 13) ** 2) / 8)
 
 
 def f_doble_prima(t):
-    return (12 / 49) * (t - 15)**2 - 4
+    x = t - 13
+    exp_term = math.exp(-(x ** 2) / 8)
+    return -33.75 * exp_term * (1 - (x ** 2) / 4)
 
 
 def encontrar_puntos_criticos():
-    return [8.0, 15.0, 22.0]
+    return [13.0]
 
 
 def clasificar_puntos_criticos():
@@ -34,34 +35,41 @@ def clasificar_puntos_criticos():
 
 def predecir(t_input):
     afluencia = f(t_input)
-    valor_maximo = f(15)
-    umbral_pico = 0.90 * valor_maximo
+    valor_maximo = f(13)
+    umbral_pico = 0.85 * valor_maximo
+
     es_hora_pico = afluencia >= umbral_pico
     derivada = f_prima(t_input)
 
-    if derivada > 1.0:
+    if derivada > 3.0:
         tendencia = "creciendo"
-    elif derivada < -1.0:
+    elif derivada < -3.0:
         tendencia = "decreciendo"
     else:
         tendencia = "estable"
 
-    clasif = clasificar_puntos_criticos()
-    minimos = [t for t, tipo in clasif.items() if tipo == "minimo local"]
+    ventana_min = max(8.0, t_input - 3.0)
+    ventana_max = min(22.0, t_input + 3.0)
 
-    horario_recomendado = min(minimos, key=lambda m: abs(t_input - m))
+    mejor_t = ventana_min
+    t = ventana_min
+    while t <= ventana_max:
+        if f(t) < f(mejor_t):
+            mejor_t = t
+        t += 0.25
 
-    if abs(t_input - horario_recomendado) < 0.25:
-        mensaje = "Ya estas en una hora valle -- es un buen momento para ir al casino."
+    if abs(mejor_t - t_input) < 0.25:
+        mensaje = "Ya estas en la mejor hora dentro de un rango de +-3h."
     elif es_hora_pico:
         mensaje = (
-            f"Hora pico. Se recomienda ir a las {horario_recomendado:.0f}:00 "
-            f"({abs(horario_recomendado - t_input):.0f}h de diferencia)."
+            f"Hora pico ({afluencia:.0f} pers.). "
+            f"Se recomienda ir a las {mejor_t:.1f}h "
+            f"({f(mejor_t):.0f} pers.)."
         )
     else:
         mensaje = (
-            f"Afluencia moderada. La hora mas tranquila cercana "
-            f"es las {horario_recomendado:.0f}:00."
+            f"Afluencia moderada ({afluencia:.0f} pers.). "
+            f"La mejor hora cercana es las {mejor_t:.1f}h."
         )
 
     return {
@@ -69,17 +77,16 @@ def predecir(t_input):
         "afluencia": round(afluencia, 1),
         "es_hora_pico": es_hora_pico,
         "tendencia": tendencia,
-        "horario_recomendado": horario_recomendado,
+        "horario_recomendado": mejor_t,
         "mensaje": mensaje,
     }
 
 
 def demo():
-    assert abs(f(8) - 26.0) < 0.01
-    assert abs(f(15) - 75.0) < 0.01
-    assert abs(f(22) - 26.0) < 0.01
-    for t in [8, 15, 22]:
-        assert abs(f_prima(t)) < 0.001
+    assert abs(f(8) - 35.93) < 0.1
+    assert abs(f(13) - 165) < 0.1
+    assert abs(f(18) - 35.93) < 0.1
+    assert abs(f_prima(13)) < 0.001
     print("demo(): todas las verificaciones pasaron.")
 
 
